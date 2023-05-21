@@ -11,7 +11,7 @@ const (
 	port     = 8001
 	user     = "postgres"
 	password = "example"
-	dbname   = "movirate"
+	dbname   = "postgres"
 )
 
 func connectToDB() {

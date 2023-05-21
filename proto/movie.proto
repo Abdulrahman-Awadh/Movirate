@@ -1,0 +1,60 @@
+syntax = "proto3";
+option go_package = "github.com/Abdulrahman-Awadh/Movirate/movie";
+
+
+
+service MovieApi{
+  //here defined all the endpoints you have:)
+  //we need to add search, add or delete from user favourites
+  rpc GetMovies(RequestMovies) returns (ResponseMovies);
+  rpc AddMovieToFav(RequestMAddMovieToFav) returns (ResponseAddMovieToFav);
+  rpc DeleteMovieFromFav(RequestDeleteMovieFromFav) returns (ResponseDeleteMovieFromFav);
+  rpc SearchForMovie(RequestSearchForMovie) returns (ResponseSearchForMovie);
+  rpc GetFavMovies(RequestMovies) returns (ResponseMovies);
+}
+
+message Movie{
+  int32 id = 1;
+  string name = 2;
+  string poster = 3;
+  string description = 4;
+  string genre = 5;
+}
+
+
+message RequestMovies{
+}
+message ResponseMovies{
+  repeated Movie movie = 1;
+}
+
+
+message RequestMAddMovieToFav{
+  int32 Id = 1;
+}
+message ResponseAddMovieToFav{
+  bool isDone = 1;
+}
+
+
+
+message RequestDeleteMovieFromFav{
+  int32 Id = 1;
+}
+message ResponseDeleteMovieFromFav{
+  bool isDone = 1;
+}
+
+
+
+message RequestSearchForMovie{
+  string keyword = 1;
+}
+message ResponseSearchForMovie{
+  Movie movie = 1;
+}
+
+
+
+
+

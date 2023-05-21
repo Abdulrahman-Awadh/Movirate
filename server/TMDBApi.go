@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	pb "github.com/Abdulrahman-Awadh/Movirate/movie"
+	pb "github.com/Abdulrahman-Awadh/Movirate/proto"
 	"io/ioutil"
 	"log"
 	"net/http"
