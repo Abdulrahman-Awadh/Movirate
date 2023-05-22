@@ -1,11 +1,8 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	pb "github.com/Abdulrahman-Awadh/Movirate/proto"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 	"log"
 	"strconv"
 	"strings"
@@ -13,13 +10,8 @@ import (
 
 func main() {
 
-	//add to fav
 	//Search for a movie
 	//add to fav
-	//get my favorites
-	//select one
-	//show details
-	//delete from favorite
 	for {
 		// Print the menu
 		fmt.Println("=== Welcome To Movirate App ===")
@@ -39,7 +31,13 @@ func main() {
 		case "1":
 			fmt.Println("Option 1 selected")
 			movies := getLatestMovies()
+			if movies == nil {
+				continue
+			}
 			movie := selectMovie(movies)
+			if movie == nil {
+				continue
+			}
 			if movie == nil {
 				continue
 			}
@@ -51,6 +49,18 @@ func main() {
 		case "3":
 			fmt.Println("Option 3 selected")
 			// Add code for Option 3
+			movies := getFavMovies()
+			if movies == nil {
+				continue
+			}
+			movie := selectMovie(movies)
+			if movie == nil {
+				continue
+			}
+			if movie == nil {
+				continue
+			}
+			favMovieMenu(movie)
 		case "0":
 			fmt.Println("Exiting...")
 			return
@@ -61,22 +71,6 @@ func main() {
 		fmt.Println() // Add an empty line for better readability
 	}
 
-}
-func getLatestMovies() []*pb.Movie {
-	conn, err := grpc.Dial("localhost:8000", grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		log.Fatalf("Error", err)
-	}
-
-	client := pb.NewMovieApiClient(conn)
-
-	// Note how we are calling the GetBookList method on the server
-	// This is available to us through the auto-generated code
-	movies, err := client.GetMovies(context.Background(), &pb.RequestMovies{})
-	if err != nil {
-		log.Fatalf("Error", err)
-	}
-	return movies.Movie
 }
 
 func printMovies(movies []*pb.Movie) {
@@ -123,6 +117,7 @@ func selectMovie(movies []*pb.Movie) *pb.Movie {
 	fmt.Println() // Add an empty line for better readability
 	return nil
 }
+
 func movieMenu(movie *pb.Movie) {
 	printMovieDetails(movie)
 	for {
@@ -139,6 +134,8 @@ func movieMenu(movie *pb.Movie) {
 		switch strings.TrimSpace(choice) {
 		case "f":
 			//add to fav
+			addMovieToFav(movie)
+			return
 
 		case "b":
 			return
@@ -152,13 +149,32 @@ func movieMenu(movie *pb.Movie) {
 
 }
 
-func getFavoriteMovies(movie pb.Movie) {
+func favMovieMenu(movie *pb.Movie) {
+	printMovieDetails(movie)
+	for {
+		// Print the menu
+		fmt.Println("D. Delete from favorites movies")
+		fmt.Println("B. Back")
 
-}
+		// Read user input
+		var choice string
+		fmt.Print("Enter your choice: ")
+		fmt.Scanln(&choice)
 
-func addMovieToFavorite(movie pb.Movie) {
+		// Process the user's choice
+		switch strings.TrimSpace(choice) {
+		case "d":
+			//add to fav
+			deleteMovieFromFav(movie)
+			return
+		case "b":
+			return
+			// Add code for Option 2
+		default:
+			fmt.Println("Invalid choice. Please try again.")
+		}
 
-}
-func deleteMovieFromFavorite(movie pb.Movie) {
+		fmt.Println() // Add an empty line for better readability
+	}
 
 }
