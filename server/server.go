@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	connectToDB()
+	databaseInit()
 	//server setup
 	lis, err := net.Listen("tcp", ":8000")
 	if err != nil {

@@ -12,10 +12,7 @@ import (
 )
 
 func main() {
-	//select endpoint menu => done
-	//Get Latest Movies => done
-	//select one => done
-	//show details => done
+
 	//add to fav
 	//Search for a movie
 	//add to fav

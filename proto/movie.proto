@@ -7,7 +7,7 @@ service MovieApi{
   //here defined all the endpoints you have:)
   //we need to add search, add or delete from user favourites
   rpc GetMovies(RequestMovies) returns (ResponseMovies);
-  rpc AddMovieToFav(RequestMAddMovieToFav) returns (ResponseAddMovieToFav);
+  rpc AddMovieToFav(RequestAddMovieToFav) returns (ResponseAddMovieToFav);
   rpc DeleteMovieFromFav(RequestDeleteMovieFromFav) returns (ResponseDeleteMovieFromFav);
   rpc SearchForMovie(RequestSearchForMovie) returns (ResponseSearchForMovie);
   rpc GetFavMovies(RequestMovies) returns (ResponseMovies);
@@ -29,11 +29,12 @@ message ResponseMovies{
 }
 
 
-message RequestMAddMovieToFav{
-  int32 Id = 1;
+message RequestAddMovieToFav{
+  Movie movie = 1;
 }
 message ResponseAddMovieToFav{
   bool isDone = 1;
+  string message = 2;
 }
 
 
@@ -43,6 +44,8 @@ message RequestDeleteMovieFromFav{
 }
 message ResponseDeleteMovieFromFav{
   bool isDone = 1;
+  string message = 2;
+
 }
 
 
