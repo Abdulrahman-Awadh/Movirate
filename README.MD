@@ -3,8 +3,8 @@
 Movirate is an application to apply the knowldge of gRPC in go lang by providing information about movies.
 
 ## Pre-Requizite
-go 1.20
-docker 
+go 1.20 \n
+docker \n
 docker-compose
 
 ## How to run
