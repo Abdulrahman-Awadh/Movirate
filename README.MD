@@ -1,6 +1,6 @@
 # Movirate
 
-Movirate is an application to apply the knowldge of gRPC in go lang.
+Movirate is an application to apply the knowldge of gRPC in go lang by providing information about movies.
 
 ## Pre-Requizite
 go 1.20
