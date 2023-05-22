@@ -76,7 +76,7 @@ func CreateTable() {
 
 }
 
-func AddToFav(movie pb.Movie) {
+func AddToFav(movie *pb.Movie) {
 	postgresqlDbInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 	db, err := sql.Open("postgres", postgresqlDbInfo)
@@ -148,7 +148,7 @@ func DeleteFromFav(id int) {
 
 }
 
-func GetFavMovies() []pb.Movie {
+func GetFavMovies() []*pb.Movie {
 	postgresqlDbInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 	db, err := sql.Open("postgres", postgresqlDbInfo)
@@ -162,7 +162,7 @@ func GetFavMovies() []pb.Movie {
 
 	defer rows.Close()
 
-	var movies []pb.Movie
+	var movies []*pb.Movie
 	for rows.Next() {
 		var id int
 		var name string
@@ -173,7 +173,7 @@ func GetFavMovies() []pb.Movie {
 		if err := rows.Err(); err != nil {
 			log.Fatal(err)
 		}
-		movies = append(movies, pb.Movie{
+		movies = append(movies, &pb.Movie{
 			Id:          int32(id),
 			Name:        name,
 			Poster:      poster_path,

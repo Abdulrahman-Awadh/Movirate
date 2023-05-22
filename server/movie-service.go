@@ -16,12 +16,27 @@ func (s *movieServer) GetMovies(ctx context.Context, req *pb.RequestMovies) (*pb
 	}, nil
 }
 
-func (s *movieServer) AddMovieToFav(context.Context, *pb.RequestMAddMovieToFav) (*pb.ResponseAddMovieToFav, error) {
+func (s *movieServer) AddMovieToFav(ctx context.Context, req *pb.RequestAddMovieToFav) (*pb.ResponseAddMovieToFav, error) {
+	movie := req.Movie
+	if movie != nil {
+		AddToFav(movie)
+		return &pb.ResponseAddMovieToFav{
+			IsDone:  true,
+			Message: "Done",
+		}, nil
+	}
+
 	return nil, nil
 }
 
-func (s *movieServer) DeleteMovieFromFav(context.Context, *pb.RequestDeleteMovieFromFav) (*pb.ResponseDeleteMovieFromFav, error) {
-	return nil, nil
+func (s *movieServer) DeleteMovieFromFav(ctx context.Context, req *pb.RequestDeleteMovieFromFav) (*pb.ResponseDeleteMovieFromFav, error) {
+	id := req.Id
+	DeleteFromFav(int(id))
+
+	return &pb.ResponseDeleteMovieFromFav{
+		IsDone:  true,
+		Message: "Done",
+	}, nil
 }
 
 func (s *movieServer) SearchForMovie(context.Context, *pb.RequestSearchForMovie) (*pb.ResponseSearchForMovie, error) {
@@ -29,5 +44,9 @@ func (s *movieServer) SearchForMovie(context.Context, *pb.RequestSearchForMovie)
 }
 
 func (s *movieServer) GetFavMovies(context.Context, *pb.RequestMovies) (*pb.ResponseMovies, error) {
-	return nil, nil
+	movies := GetFavMovies()
+
+	return &pb.ResponseMovies{
+		Movie: movies,
+	}, nil
 }

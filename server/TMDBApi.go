@@ -70,3 +70,7 @@ func getMoviesFromAPI() []*pb.Movie {
 	}
 	return movies
 }
+
+func searchForMovie() {
+
+}
