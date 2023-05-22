@@ -1,37 +1,28 @@
-# Foobar
+# Movirate
 
-Foobar is a Python library for dealing with word pluralization.
+Movirate is an application to apply the knowldge of gRPC in go lang.
 
-## Installation
+## Pre-Requizite
+go 1.20
+docker 
+docker-compose
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+## How to run
+first run docker-compose for database:
+```bash
+docker-compose up
+```
+
+
+then run the server by runnung the following command in the server folder:
 
 ```bash
-pip install foobar
+go run ./
+```
+finally to consume the apis run the client from the client folder 
+
+```bash
+go run ./
 ```
 
-## Usage
-
-```python
-import foobar
-
-# returns 'words'
-foobar.pluralize('word')
-
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
-```
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+note: the client has mini cmd UI and it is going to be updated.
