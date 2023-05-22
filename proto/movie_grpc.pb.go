@@ -22,12 +22,10 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MovieApiClient interface {
-	// here defined all the endpoints you have:)
-	// we need to add search, add or delete from user favourites
 	GetMovies(ctx context.Context, in *RequestMovies, opts ...grpc.CallOption) (*ResponseMovies, error)
 	AddMovieToFav(ctx context.Context, in *RequestAddMovieToFav, opts ...grpc.CallOption) (*ResponseAddMovieToFav, error)
 	DeleteMovieFromFav(ctx context.Context, in *RequestDeleteMovieFromFav, opts ...grpc.CallOption) (*ResponseDeleteMovieFromFav, error)
-	SearchForMovie(ctx context.Context, in *RequestSearchForMovie, opts ...grpc.CallOption) (*ResponseSearchForMovie, error)
+	SearchForMovie(ctx context.Context, in *RequestSearchForMovie, opts ...grpc.CallOption) (*ResponseMovies, error)
 	GetFavMovies(ctx context.Context, in *RequestMovies, opts ...grpc.CallOption) (*ResponseMovies, error)
 }
 
@@ -66,8 +64,8 @@ func (c *movieApiClient) DeleteMovieFromFav(ctx context.Context, in *RequestDele
 	return out, nil
 }
 
-func (c *movieApiClient) SearchForMovie(ctx context.Context, in *RequestSearchForMovie, opts ...grpc.CallOption) (*ResponseSearchForMovie, error) {
-	out := new(ResponseSearchForMovie)
+func (c *movieApiClient) SearchForMovie(ctx context.Context, in *RequestSearchForMovie, opts ...grpc.CallOption) (*ResponseMovies, error) {
+	out := new(ResponseMovies)
 	err := c.cc.Invoke(ctx, "/MovieApi/SearchForMovie", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -88,12 +86,10 @@ func (c *movieApiClient) GetFavMovies(ctx context.Context, in *RequestMovies, op
 // All implementations must embed UnimplementedMovieApiServer
 // for forward compatibility
 type MovieApiServer interface {
-	// here defined all the endpoints you have:)
-	// we need to add search, add or delete from user favourites
 	GetMovies(context.Context, *RequestMovies) (*ResponseMovies, error)
 	AddMovieToFav(context.Context, *RequestAddMovieToFav) (*ResponseAddMovieToFav, error)
 	DeleteMovieFromFav(context.Context, *RequestDeleteMovieFromFav) (*ResponseDeleteMovieFromFav, error)
-	SearchForMovie(context.Context, *RequestSearchForMovie) (*ResponseSearchForMovie, error)
+	SearchForMovie(context.Context, *RequestSearchForMovie) (*ResponseMovies, error)
 	GetFavMovies(context.Context, *RequestMovies) (*ResponseMovies, error)
 	mustEmbedUnimplementedMovieApiServer()
 }
@@ -111,7 +107,7 @@ func (UnimplementedMovieApiServer) AddMovieToFav(context.Context, *RequestAddMov
 func (UnimplementedMovieApiServer) DeleteMovieFromFav(context.Context, *RequestDeleteMovieFromFav) (*ResponseDeleteMovieFromFav, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteMovieFromFav not implemented")
 }
-func (UnimplementedMovieApiServer) SearchForMovie(context.Context, *RequestSearchForMovie) (*ResponseSearchForMovie, error) {
+func (UnimplementedMovieApiServer) SearchForMovie(context.Context, *RequestSearchForMovie) (*ResponseMovies, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchForMovie not implemented")
 }
 func (UnimplementedMovieApiServer) GetFavMovies(context.Context, *RequestMovies) (*ResponseMovies, error) {

@@ -9,7 +9,6 @@ type movieServer struct {
 	pb.UnimplementedMovieApiServer
 }
 
-// this to implement the interface of the endpoint
 func (s *movieServer) GetMovies(ctx context.Context, req *pb.RequestMovies) (*pb.ResponseMovies, error) {
 	return &pb.ResponseMovies{
 		Movie: getMoviesFromAPI(),
@@ -39,8 +38,8 @@ func (s *movieServer) DeleteMovieFromFav(ctx context.Context, req *pb.RequestDel
 	}, nil
 }
 
-func (s *movieServer) SearchForMovie(context.Context, *pb.RequestSearchForMovie) (*pb.ResponseSearchForMovie, error) {
-	return nil, nil
+func (s *movieServer) SearchForMovie(ctx context.Context, req *pb.RequestSearchForMovie) (*pb.ResponseMovies, error) {
+	return &pb.ResponseMovies{Movie: searchForMovieAPI(req.Keyword)}, nil
 }
 
 func (s *movieServer) GetFavMovies(context.Context, *pb.RequestMovies) (*pb.ResponseMovies, error) {

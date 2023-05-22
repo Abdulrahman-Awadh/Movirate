@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	pb "github.com/Abdulrahman-Awadh/Movirate/proto"
-	"log"
 	"strconv"
 	"strings"
 )
@@ -29,7 +28,6 @@ func main() {
 		// Process the user's choice
 		switch strings.TrimSpace(choice) {
 		case "1":
-			fmt.Println("Option 1 selected")
 			movies := getLatestMovies()
 			if movies == nil {
 				continue
@@ -42,13 +40,25 @@ func main() {
 				continue
 			}
 			movieMenu(movie)
-			// Add code for Option 1
 		case "2":
-			fmt.Println("Option 2 selected")
-			// Add code for Option 2
+			var keyword string
+			fmt.Print("Enter Movie Name: ")
+			fmt.Scanln(&keyword)
+
+			movies := searchForMovie(keyword)
+			if movies == nil {
+				fmt.Print("No Movie Found ")
+				continue
+			}
+			movie := selectMovie(movies)
+			if movie == nil {
+				continue
+			}
+			if movie == nil {
+				continue
+			}
+			movieMenu(movie)
 		case "3":
-			fmt.Println("Option 3 selected")
-			// Add code for Option 3
 			movies := getFavMovies()
 			if movies == nil {
 				continue
@@ -68,13 +78,13 @@ func main() {
 			fmt.Println("Invalid choice. Please try again.")
 		}
 
-		fmt.Println() // Add an empty line for better readability
+		fmt.Println()
 	}
 
 }
 
 func printMovies(movies []*pb.Movie) {
-	log.Printf("Movie list:")
+	fmt.Println("Movie list:")
 	for index, value := range movies {
 		fmt.Printf("%d- %s\n", index+1, value.Name)
 	}
@@ -98,7 +108,7 @@ func selectMovie(movies []*pb.Movie) *pb.Movie {
 
 		// Read user input
 		var choice string
-		fmt.Print("Enter The Number: ")
+		fmt.Print("Enter your choice: ")
 		fmt.Scanln(&choice)
 		fmt.Println()
 
@@ -114,7 +124,7 @@ func selectMovie(movies []*pb.Movie) *pb.Movie {
 
 	}
 
-	fmt.Println() // Add an empty line for better readability
+	fmt.Println()
 	return nil
 }
 
@@ -133,18 +143,16 @@ func movieMenu(movie *pb.Movie) {
 		// Process the user's choice
 		switch strings.TrimSpace(choice) {
 		case "f":
-			//add to fav
 			addMovieToFav(movie)
 			return
 
 		case "b":
 			return
-			// Add code for Option 2
 		default:
 			fmt.Println("Invalid choice. Please try again.")
 		}
 
-		fmt.Println() // Add an empty line for better readability
+		fmt.Println()
 	}
 
 }

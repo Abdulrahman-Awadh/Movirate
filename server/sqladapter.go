@@ -35,7 +35,6 @@ func CreateDatabase() {
 		fmt.Println("Database creation error:", err)
 		return
 	}
-	//defer db.Close()
 
 }
 
@@ -64,15 +63,7 @@ func CreateTable() {
 		return
 	}
 	fmt.Println("Table created successfully.")
-	insertQuery := `
-		INSERT INTO movie (id, name, description, poster_path)
-		VALUES (123,'test','test','test');
-	`
-	_, err = db.Exec(insertQuery)
-	if err != nil {
-		fmt.Println("Table creation error:", err)
-		return
-	}
+	return
 
 }
 

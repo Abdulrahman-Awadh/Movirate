@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	pb "github.com/Abdulrahman-Awadh/Movirate/proto"
 	"io/ioutil"
 	"log"
@@ -65,12 +66,38 @@ func getMoviesFromAPI() []*pb.Movie {
 			Name:        value.Title,
 			Poster:      value.PosterPath,
 			Description: value.Overview,
-			Genre:       "value.GenreIds",
 		})
 	}
 	return movies
 }
 
-func searchForMovie() {
+func searchForMovieAPI(keyword string) []*pb.Movie {
+	url := fmt.Sprintf("https://api.themoviedb.org/3/search/movie?query=%s&include_adult=false&language=en-US&page=1", keyword)
 
+	req, _ := http.NewRequest("GET", url, nil)
+
+	req.Header.Add("accept", "application/json")
+	req.Header.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3Njg0NTRmMzBmNDBkYjJkNzFjZGNmOGFhYmJmODYyYiIsInN1YiI6IjY0Njc1ZTllMDA2YjAxMDE0N2U5NDNkYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.l2lKzWqj0OJ1yAXHAkw0LoE5IQJvMneYBJOPuDvzSds")
+
+	res, _ := http.DefaultClient.Do(req)
+
+	defer res.Body.Close()
+	body, _ := ioutil.ReadAll(res.Body)
+
+	var decodedPerson MoviesList
+	err := json.Unmarshal(body, &decodedPerson)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var movies []*pb.Movie
+	for _, value := range decodedPerson.Results {
+		movies = append(movies, &pb.Movie{
+			Id:          int32(value.ID),
+			Name:        value.Title,
+			Poster:      value.PosterPath,
+			Description: value.Overview,
+		})
+	}
+	return movies
 }

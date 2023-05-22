@@ -31,11 +31,7 @@ func getFavMovies() []*pb.Movie {
 	if err != nil {
 		log.Fatalf("Error", err)
 	}
-
 	client := pb.NewMovieApiClient(conn)
-
-	// Note how we are calling the GetBookList method on the server
-	// This is available to us through the auto-generated code
 	movies, err := client.GetFavMovies(context.Background(), &pb.RequestMovies{})
 	if err != nil {
 		log.Fatalf("Error", err)
@@ -67,16 +63,30 @@ func deleteMovieFromFav(movie *pb.Movie) {
 	if err != nil {
 		log.Fatal("Error", err)
 	}
-
 	client := pb.NewMovieApiClient(conn)
-
 	response, err := client.DeleteMovieFromFav(context.Background(), &pb.RequestDeleteMovieFromFav{
 		Id: movie.Id,
 	})
-
 	if err != nil {
 		log.Fatal("Error: ", err)
 	}
 	fmt.Println(response.Message)
 	return
+}
+func searchForMovie(keyword string) []*pb.Movie {
+	conn, err := grpc.Dial("localhost:8000", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatal("Error", err)
+	}
+
+	client := pb.NewMovieApiClient(conn)
+
+	response, err := client.SearchForMovie(context.Background(), &pb.RequestSearchForMovie{
+		Keyword: keyword,
+	})
+
+	if err != nil {
+		log.Fatal("Error: ", err)
+	}
+	return response.Movie
 }
