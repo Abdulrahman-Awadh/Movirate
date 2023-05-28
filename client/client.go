@@ -94,7 +94,6 @@ func printMovies(movies []*pb.Movie) {
 func printMovieDetails(movie *pb.Movie) {
 	fmt.Println("Movie Name:", movie.Name)
 	fmt.Println("Movie Description:", movie.Description)
-	fmt.Println("Movie Genre:", movie.Genre)
 	fmt.Println("Movie Poster:", movie.Poster)
 	fmt.Println()
 }
