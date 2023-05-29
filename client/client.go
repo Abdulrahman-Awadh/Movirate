@@ -12,7 +12,7 @@ func main() {
 	//Search for a movie
 	//add to fav
 	for {
-		// Print the menu
+		// Print the main menu
 		fmt.Println("=== Welcome To Movirate App ===")
 		fmt.Println("=== Select an option ===")
 		fmt.Println("1. Get The Latest Movies")
@@ -85,6 +85,9 @@ func main() {
 
 func printMovies(movies []*pb.Movie) {
 	fmt.Println("Movie list:")
+	if len(movies) == 0 {
+		fmt.Print("There is No Movies")
+	}
 	for index, value := range movies {
 		fmt.Printf("%d- %s\n", index+1, value.Name)
 	}

@@ -14,11 +14,7 @@ func getLatestMovies() []*pb.Movie {
 	if err != nil {
 		log.Fatalf("Error", err)
 	}
-
 	client := pb.NewMovieApiClient(conn)
-
-	// Note how we are calling the GetBookList method on the server
-	// This is available to us through the auto-generated code
 	movies, err := client.GetMovies(context.Background(), &pb.RequestMovies{})
 	if err != nil {
 		log.Fatalf("Error", err)
@@ -44,9 +40,7 @@ func addMovieToFav(movie *pb.Movie) {
 	if err != nil {
 		log.Fatal("Error in connection: ", err)
 	}
-
 	client := pb.NewMovieApiClient(conn)
-
 	response, err := client.AddMovieToFav(context.Background(), &pb.RequestAddMovieToFav{
 		Movie: movie,
 	})
@@ -73,6 +67,7 @@ func deleteMovieFromFav(movie *pb.Movie) {
 	fmt.Println(response.Message)
 	return
 }
+
 func searchForMovie(keyword string) []*pb.Movie {
 	conn, err := grpc.Dial("localhost:8000", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
